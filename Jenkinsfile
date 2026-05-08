@@ -35,21 +35,15 @@ pipeline {
         }
 
         stage('Deploy to Kubernetes') {
-
             steps {
-
-                bat '''
-                wsl kubectl apply -f $(wslpath "%WORKSPACE%")/k8s
-                '''
+                bat 'kubectl apply -f "%WORKSPACE%\\k8s"'
             }
         }
 
         stage('Verify Deployment') {
             steps {
 
-                bat '''
-                wsl kubectl get pods
-                '''
+                bat 'kubectl get pods'
             }
         }
     }
