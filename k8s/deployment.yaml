@@ -20,6 +20,5 @@ spec:
       - name: demo-app
         image: yourdockerhub/demo-app:latest
         imagePullPolicy: Always
-
-      ports:
-      - containerPort: 80
+        ports:
+        - containerPort: 80
