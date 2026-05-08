@@ -34,13 +34,12 @@ pipeline {
             }
         }
 
-        stage('Deploy to K8s') {
+        stage('Deploy to Kubernetes') {
             steps {
-                withKubeConfig([credentialsId: 'k8s-kubeconfig']) {
-                    bat 'kubectl config view'
-                    bat 'kubectl cluster-info'
-                    bat 'kubectl apply -f k8s/'
-                }
+                bat 'kubectl apply -f "%WORKSPACE%\\k8s"'
+                bat 'kubectl rollout restart deployment demo-app'
+                bat 'kubectl rollout status deployment demo-app'
+                bat 'kubectl get pods'
             }
         }
 
