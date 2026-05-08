@@ -11,7 +11,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 git branch: 'main',
-                url: 'https://github.com/Lauquik/devopsdemo'
+                    url: 'https://github.com/Lauquik/devopsdemo'
             }
         }
 
@@ -20,7 +20,7 @@ pipeline {
                 bat 'docker build -t %IMAGE_NAME% .'
             }
         }
-           
+
         stage('Push Docker Image') {
             steps {
                 withCredentials([usernamePassword(
@@ -35,19 +35,21 @@ pipeline {
         }
 
         stage('Deploy to K8s') {
-                steps {
-                    withKubeConfig([credentialsId: 'k8s-kubeconfig']) {
-                        bat 'kubectl config view'
-                        bat 'kubectl cluster-info'
-                        bat 'kubectl apply -f k8s/'
+            steps {
+                withKubeConfig([credentialsId: 'k8s-kubeconfig']) {
+                    bat 'kubectl config view'
+                    bat 'kubectl cluster-info'
+                    bat 'kubectl apply -f k8s/'
                 }
             }
         }
 
         stage('Verify Deployment') {
+            steps {
                 withKubeConfig([credentialsId: 'k8s-kubeconfig']) {
-                bat 'kubectl get pods'
-            }
+                    bat 'kubectl get pods'
+                }
+            }                                        
         }
     }
 }
