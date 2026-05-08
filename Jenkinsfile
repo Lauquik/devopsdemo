@@ -1,27 +1,48 @@
 pipeline {
+
     agent any
 
     environment {
-        IMAGE_NAME = "laukik2002/demo-app:v1"
+        IMAGE_NAME = "laukik2002/demo-app:${BUILD_NUMBER}"
     }
 
     stages {
 
+        stage('Checkout') {
+            steps {
+                git branch: 'main',
+                url: 'https://github.com/Lauquik/devopsdemo'
+            }
+        }
+
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t $IMAGE_NAME .'
+                bat 'docker build -t %IMAGE_NAME% .'
             }
         }
 
         stage('Push Docker Image') {
             steps {
-                sh 'docker push $IMAGE_NAME'
+                bat 'docker push %IMAGE_NAME%'
             }
         }
 
         stage('Deploy to Kubernetes') {
+
             steps {
-                sh 'kubectl apply -f k8s/'
+
+                bat '''
+                wsl kubectl apply -f $(wslpath "%WORKSPACE%")/k8s
+                '''
+            }
+        }
+
+        stage('Verify Deployment') {
+            steps {
+
+                bat '''
+                wsl kubectl get pods
+                '''
             }
         }
     }

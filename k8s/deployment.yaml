@@ -18,8 +18,8 @@ spec:
     spec:
       containers:
       - name: demo-app
+        image: yourdockerhub/demo-app:latest
+        imagePullPolicy: Always
 
-        image: laukik2002/demo-app:v1
-
-        ports:
-        - containerPort: 80
+      ports:
+      - containerPort: 80
