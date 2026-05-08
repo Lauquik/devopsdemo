@@ -4,7 +4,7 @@ metadata:
   name: demo-app
 
 spec:
-  replicas: 2
+  replicas: 1
 
   selector:
     matchLabels:
@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: demo-app
-        image: yourdockerhub/demo-app:latest
+        image: laukik2002/demo-app:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 80
