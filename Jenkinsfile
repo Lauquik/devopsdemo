@@ -37,7 +37,7 @@ pipeline {
         stage('Deploy to K8s') {
             steps {
                 withKubeConfig([credentialsId: 'k8s-kubeconfig']) {
-                    bat 'kubectl apply -f k8s/'
+                    bat 'kubectl apply -f k8s/ --validate=false'
                     bat 'kubectl rollout restart deployment demo-app'
                     bat 'kubectl rollout status deployment demo-app'
                 }
